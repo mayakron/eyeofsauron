@@ -1,0 +1,28 @@
+{
+    "Sequences":
+    [
+        {
+            "Id": "Mayakron-WebApp",
+            "Frequency": 30000,
+            "Tests":
+            [
+                {
+                    "Id": "Http-Ping",
+                    "Type": "Http",
+                    "Data":
+                    {
+                        "Method": "GET",
+                        "Url": "https://mayakron.altervista.org/ping.php",
+                        "UserAgent": "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko",
+                        "Timeout": 30000,
+                        "ExpectedStatusCode": 200,
+                        "ExpectedMinContentLength": 1,
+                        "ExpectedContentRegex": "^OK$",
+                        "ExpectedMinServerCertificateRemainingDays": 30,
+                        "ExpectedMaxDuration": 10000
+                    }
+                }
+            ]
+         }
+    ]
+}
