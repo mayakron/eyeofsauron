@@ -1,5 +1,4 @@
 ﻿using EyeOfSauronLibrary.Models;
-using EyeOfSauronLibrary.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,20 +23,22 @@ namespace EyeOfSauronLibrary
             return mainRoot;
         }
 
-        public static void Schedule(Root root)
+        public static void Schedule(Root root, INotificationSender notificationSender)
         {
             foreach (var sequence in root.Sequences)
             {
-                new Thread(new ParameterizedThreadStart(Sequence)) { IsBackground = true }.Start(sequence);
+                new Thread(new ParameterizedThreadStart(Sequence)) { IsBackground = true }.Start(new SequenceThreadData { Sequence = sequence, NotificationSender = notificationSender });
             }
         }
 
         private static void Sequence(object parameter)
         {
-            Sequence((Sequence)parameter);
+            var sequenceThreadData = (SequenceThreadData)parameter;
+
+            Sequence(sequenceThreadData.Sequence, sequenceThreadData.NotificationSender);
         }
 
-        private static void Sequence(Sequence sequence)
+        private static void Sequence(Sequence sequence, INotificationSender notificationSender)
         {
             while (true)
             {
@@ -49,11 +50,11 @@ namespace EyeOfSauronLibrary
 
                         if (string.IsNullOrEmpty(failureId))
                         {
-                            NotificationUtility.NotifyTestSuccess(sequence, test);
+                            notificationSender.NotifyTestSuccess(sequence, test);
                         }
                         else
                         {
-                            NotificationUtility.NotifyTestFailure(sequence, test, failureId);
+                            notificationSender.NotifyTestFailure(sequence, test, failureId);
 
                             break;
                         }
@@ -64,7 +65,7 @@ namespace EyeOfSauronLibrary
                     }
                     catch (Exception ex)
                     {
-                        NotificationUtility.NotifyTestFailure(sequence, test, ex);
+                        notificationSender.NotifyTestFailure(sequence, test, ex);
 
                         break;
                     }

@@ -1,11 +1,11 @@
 ﻿using EyeOfSauronLibrary.Models;
 using System;
 
-namespace EyeOfSauronLibrary.Utilities
+namespace EyeOfSauronConsole
 {
-    internal static class NotificationUtility
+    internal class NotificationSender : INotificationSender
     {
-        public static void NotifyTestFailure(Sequence sequence, Test test, Exception ex)
+        public void NotifyTestFailure(Sequence sequence, Test test, Exception ex)
         {
             var created = DateTime.UtcNow;
             var message = $"{created:yyyy-MM-dd HH:mm:ss}\t{sequence.Id}\t{test.Id}\tKO\tException\t{ex.GetType()}: {ex.Message}";
@@ -15,7 +15,7 @@ namespace EyeOfSauronLibrary.Utilities
             Console.WriteLine(message);
         }
 
-        public static void NotifyTestFailure(Sequence sequence, Test test, string failureId)
+        public void NotifyTestFailure(Sequence sequence, Test test, string failureId)
         {
             var created = DateTime.UtcNow;
             var message = $"{created:yyyy-MM-dd HH:mm:ss}\t{sequence.Id}\t{test.Id}\tKO\t{failureId}";
@@ -25,7 +25,7 @@ namespace EyeOfSauronLibrary.Utilities
             Console.WriteLine(message);
         }
 
-        public static void NotifyTestSuccess(Sequence sequence, Test test)
+        public void NotifyTestSuccess(Sequence sequence, Test test)
         {
             var created = DateTime.UtcNow;
             var message = $"{created:yyyy-MM-dd HH:mm:ss}\t{sequence.Id}\t{test.Id}\tOK";

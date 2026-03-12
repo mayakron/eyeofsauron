@@ -5,7 +5,7 @@ namespace EyeOfSauronConsole
 {
     public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
@@ -13,7 +13,7 @@ namespace EyeOfSauronConsole
 
                 var root = TestRunner.Load(directoryPath);
 
-                TestRunner.Schedule(root);
+                TestRunner.Schedule(root, new NotificationSender());
 
                 Console.ReadLine();
             }

@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="NotificationSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
